@@ -1,0 +1,35 @@
+version: '3'
+services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+            - "40819:40819"
+        volumes:
+            - /services/www:/code
+            - /services/nginx/conf.d:/etc/nginx/conf.d
+            - /services/nginx/ssl:/etc/nginx/ssl
+        links:
+            - php
+    php:
+        image: nanoninja/php-fpm #官方镜像扩展太少，安装麻烦，使用第三方的
+        container_name: php
+        volumes:
+            - /services/www:/code
+            - /services/php/conf.d:/usr/local/etc/php/conf.d
+    mysql:
+        image: mysql:5.7.26
+        restart: always
+        container_name: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=wik#120 #root账户密码，必须
+            - MYSQL_USER=jiantao #创建一个非root账户
+            - MYSQL_PASSWORD=kn90123 #对应上边test账户的密码
+        volumes:
+            - /services/mysql/conf.d:/etc/mysql/conf.d
+            - /services/mysql/data:/var/lib/mysql
+            - /services/mysql/logs:/var/log/mysql
