@@ -18,11 +18,13 @@ docker cp ./nginx/nginx.conf nginx:/etc/nginx/nginx.conf
 ```
 
 - 重启容器
+
 ```
 docker-compose restart
 ```
 
 - `docker-compose.yml`文件有变动需要重新装载容器
+
 ```
 docker-compose up -d
 ```
